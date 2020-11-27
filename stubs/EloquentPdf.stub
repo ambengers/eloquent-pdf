@@ -1,0 +1,28 @@
+<?php
+
+namespace DummyNamespace;
+
+use Ambengers\EloquentPdf\AbstractEloquentPdf;
+
+class DummyClass extends AbstractEloquentPdf
+{
+    /**
+     * Array of data to be used on the view.
+     *
+     * @return array
+     */
+    public function getData() : array
+    {
+        return [];
+    }
+
+    /**
+     * The name of the view file for the pdf
+     *
+     * @return string
+     */
+    public function getView() : string
+    {
+        return '';
+    }
+}
