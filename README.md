@@ -1,7 +1,6 @@
 # Laravel Eloquent Pdf
 This package provides an elegant way to generate PDF with eloquent models.
-Uses [Laravel Snappy](https://github.com/barryvdh/laravel-snappy) to generate PDF.
-Uses [Laravel Medialibrary](https://github.com/spatie/laravel-medialibrary) to attach PDF as model media.
+Uses [Laravel Snappy](https://github.com/barryvdh/laravel-snappy) to generate PDF and [Laravel Medialibrary](https://github.com/spatie/laravel-medialibrary) to associate PDF as model media.
 
 [![StyleCI](https://github.styleci.io/repos/316454658/shield?branch=master)](https://github.styleci.io/repos/316454658?branch=master)
 
@@ -29,8 +28,8 @@ $ php artisan make:eloquent-pdf PostPdf
 By default, the class will be located at `App\Pdf` namespace. You can customize this in config file.
 
 Your Eloquent PDF class will contain 2 methods:
-`getData()` - provide the data to be used on the view
-`getView()` - the name of the view file as pdf template
+ - `getData()` provides the data to be used on the view
+ - `getView()` the name of the view file as pdf template
 
 ``` php
 namespace App\Pdf;
