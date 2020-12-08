@@ -3,14 +3,54 @@
 namespace Ambengers\EloquentPdf\Tests;
 
 use Orchestra\Testbench\TestCase;
-use Barryvdh\Snappy\ServiceProvider as PdfServiceProvider;
 use Barryvdh\Snappy\Facades\SnappyPdf;
 use Ambengers\EloquentPdf\Tests\Models\Post;
 use Ambengers\EloquentPdf\AbstractEloquentPdf;
 use Ambengers\EloquentPdf\EloquentPdfServiceProvider;
+use Barryvdh\Snappy\ServiceProvider as PdfServiceProvider;
 
 class EloquentPdfTest extends TestCase
 {
+    protected function setUp() : void
+    {
+        parent::setUp();
+
+        SnappyPdf::fake();
+
+        $this->post = (new Post)->fill(['title' => 'Test title','body' => 'Test body']);
+    }
+
+    /** @test */
+    public function it_streams_pdf()
+    {
+        $pdf = app(PostPdf::class)
+            ->model($this->post)
+            ->stream();
+
+        $response = $pdf->handle();
+
+        $this->assertTrue($response instanceof \Symfony\Component\HttpFoundation\StreamedResponse);
+        $this->assertEquals(
+            $response->headers->all()['content-disposition'][0],
+            'inline; filename="'.$pdf->getFilenameWithExtension().'"'
+        );
+    }
+
+    /** @test */
+    public function it_downloads_pdf()
+    {
+        $pdf = app(PostPdf::class)
+            ->model($this->post)
+            ->download();
+
+        $response = $pdf->handle();
+
+        $this->assertEquals(
+            $response->headers->all()['content-disposition'][0],
+            'attachment; filename="'.$pdf->getFilenameWithExtension().'"'
+        );
+    }
+
     protected function getPackageProviders($app)
     {
         return [
@@ -18,23 +58,6 @@ class EloquentPdfTest extends TestCase
             TestServiceProvider::class,
             PdfServiceProvider::class,
         ];
-    }
-
-    /** @test */
-    public function it_streams_pdf()
-    {
-        SnappyPdf::fake();
-
-        $post = (new Post)->fill(['title' => 'Test title','body' => 'Test body']);
-
-        $pdf = app(PostPdf::class)
-            ->model($post)
-            ->stream();
-
-        $response = $pdf->handle();
-
-        $this->assertTrue($response instanceof \Symfony\Component\HttpFoundation\StreamedResponse);
-        $this->assertEquals($response->headers->all()['content-disposition'][0], 'inline; filename="'.$pdf->getFilenameWithExtension().'"');
     }
 }
 
