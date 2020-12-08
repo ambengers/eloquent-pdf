@@ -47,7 +47,7 @@ abstract class AbstractEloquentPdf
         $this->pdf->loadView($this->getView(), $this->getData());
 
         if ($this->isStreaming()) {
-            return $this->pdf->stream();
+            return $this->pdf->stream($this->getFilenameWithExtension());
         }
 
         if ($this->isDownloading()) {

@@ -19,6 +19,9 @@
         "phpunit/phpunit": "~9.0",
         "orchestra/testbench": "~5|~6"
     },
+    "provide": {
+        "ext-imagick": "*"
+    },
     "autoload": {
         "psr-4": {
             "Ambengers\\EloquentPdf\\": "src/"
