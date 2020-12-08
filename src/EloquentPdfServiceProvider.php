@@ -2,8 +2,8 @@
 
 namespace Ambengers\EloquentPdf;
 
-use Illuminate\Support\ServiceProvider;
 use Ambengers\EloquentPdf\Console\EloquentPdfMakeCommand;
+use Illuminate\Support\ServiceProvider;
 
 class EloquentPdfServiceProvider extends ServiceProvider
 {
