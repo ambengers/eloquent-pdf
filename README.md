@@ -2,6 +2,7 @@
 This package provides an elegant way to generate PDF with eloquent models.
 
 [![Build Status](https://travis-ci.org/ambengers/eloquent-pdf.svg?branch=master)](https://travis-ci.org/ambengers/eloquent-pdf)
+[![StyleCI](https://github.styleci.io/repos/316454658/shield?branch=master)](https://github.styleci.io/repos/316454658?branch=master)
 
 ## Installation
 
