@@ -1,6 +1,8 @@
 # Laravel Eloquent Pdf
 This package provides an elegant way to generate PDF with eloquent models.
 
+[![Build Status](https://travis-ci.org/ambengers/eloquent-pdf.svg?branch=master)](https://travis-ci.org/ambengers/eloquent-pdf)
+
 ## Installation
 
 Via Composer
