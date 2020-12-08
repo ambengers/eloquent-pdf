@@ -10,6 +10,12 @@ trait InteractsWithMediaLibrary
 {
     protected $mediaCollection;
 
+    /**
+     * Set the mediaCollection property.
+     *
+     * @param  string $mediaCollection
+     * @return $this
+     */
     public function toMediaCollection(string $mediaCollection)
     {
         $this->mediaCollection = $mediaCollection;
@@ -17,6 +23,11 @@ trait InteractsWithMediaLibrary
         return $this;
     }
 
+    /**
+     * Process saving to media collection;
+     *
+     * @return \Spatie\MediaLibrary\Models\Media
+     */
     public function saveToMediaCollection()
     {
         if (! $this->model instanceof HasMedia) {
@@ -39,7 +50,7 @@ trait InteractsWithMediaLibrary
             ->usingFileName($this->getFilenameWithExtension())
             ->toMediaCollection($this->mediaCollection);
 
-        $storage->delete($temporaryPath);
+        $storage->deleteDirectory($this->getTemporaryFolder());
 
         return $media;
     }

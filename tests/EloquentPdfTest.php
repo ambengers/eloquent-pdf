@@ -2,27 +2,37 @@
 
 namespace Ambengers\EloquentPdf\Tests;
 
-use Orchestra\Testbench\TestCase;
 use Barryvdh\Snappy\Facades\SnappyPdf;
 use Ambengers\EloquentPdf\Tests\Models\Post;
 use Ambengers\EloquentPdf\AbstractEloquentPdf;
-use Ambengers\EloquentPdf\EloquentPdfServiceProvider;
-use Barryvdh\Snappy\ServiceProvider as PdfServiceProvider;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Ambengers\EloquentPdf\InteractsWithMediaLibrary;
 
-class EloquentPdfTest extends TestCase
+class EloquentPdfTest extends BaseTestCase
 {
+    use RefreshDatabase;
+
     protected function setUp() : void
     {
         parent::setUp();
 
-        SnappyPdf::fake();
+        $this->loadMigrationsFrom([
+            '--database' => 'sqlite',
+            '--path'     => realpath(__DIR__.'/Migrations'),
+        ]);
 
-        $this->post = (new Post)->fill(['title' => 'Test title','body' => 'Test body']);
+        $this->post = (new Post)->fill([
+            'title' => 'Test title',
+            'body'  => 'Test body'
+        ]);
     }
+
 
     /** @test */
     public function it_streams_pdf()
     {
+        SnappyPdf::fake();
+
         $pdf = app(PostPdf::class)
             ->model($this->post)
             ->stream();
@@ -39,6 +49,8 @@ class EloquentPdfTest extends TestCase
     /** @test */
     public function it_downloads_pdf()
     {
+        SnappyPdf::fake();
+
         $pdf = app(PostPdf::class)
             ->model($this->post)
             ->download();
@@ -51,18 +63,33 @@ class EloquentPdfTest extends TestCase
         );
     }
 
-    protected function getPackageProviders($app)
+    /** @test */
+    public function it_transfers_to_media_library()
     {
-        return [
-            EloquentPdfServiceProvider::class,
-            TestServiceProvider::class,
-            PdfServiceProvider::class,
-        ];
+        $this->post->save();
+
+        $pdf = app(PostPdf::class)
+            ->model($this->post)
+            ->toMediaCollection($collectionName = 'attachments');
+
+        $pdf->handle();
+
+        $this->assertDatabaseHas('media', [
+            'model_type'      => $this->post->getMorphClass(),
+            'model_id'        => $this->post->getKey(),
+            'collection_name' => $collectionName,
+            'name'            => $pdf->getFilename(),
+            'file_name'       => $pdf->getFilenameWithExtension(),
+            'disk'            => config('filesystems.default'),
+            'mime_type'       => 'application/pdf',
+        ]);
     }
 }
 
 class PostPdf extends AbstractEloquentPdf
 {
+    use InteractsWithMediaLibrary;
+
     /**
      * Array of data to be used on the view.
      *
