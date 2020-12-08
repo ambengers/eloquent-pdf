@@ -17,7 +17,7 @@ class DummyClass extends AbstractEloquentPdf
     }
 
     /**
-     * The name of the view file for the pdf
+     * The view file for the pdf.
      *
      * @return string
      */

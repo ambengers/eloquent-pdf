@@ -34,10 +34,25 @@ abstract class AbstractEloquentPdf
         $this->pdf = $pdf;
     }
 
+    /**
+     * Array of data to be used on the view.
+     *
+     * @return array
+     */
     abstract public function getData() : array;
 
+    /**
+     * The view file for the pdf.
+     *
+     * @return string
+     */
     abstract public function getView() : string;
 
+    /**
+     * Handle the process of generating pdf.
+     *
+     * @return mixed
+     */
     public function handle()
     {
         $this->ensurePdfInstance();
