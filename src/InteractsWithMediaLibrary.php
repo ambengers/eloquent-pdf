@@ -2,9 +2,9 @@
 
 namespace Ambengers\EloquentPdf;
 
+use Ambengers\EloquentPdf\Exceptions\DomainLogicException;
 use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Ambengers\EloquentPdf\Exceptions\DomainLogicException;
 
 trait InteractsWithMediaLibrary
 {
@@ -24,7 +24,7 @@ trait InteractsWithMediaLibrary
     }
 
     /**
-     * Process saving to media collection;
+     * Process saving to media collection;.
      *
      * @return \Spatie\MediaLibrary\Models\Media
      */

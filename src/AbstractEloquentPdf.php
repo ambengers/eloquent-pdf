@@ -2,9 +2,9 @@
 
 namespace Ambengers\EloquentPdf;
 
+use Ambengers\EloquentPdf\Exceptions\DomainLogicException;
 use Barryvdh\Snappy\PdfWrapper;
 use Illuminate\Database\Eloquent\Model;
-use Ambengers\EloquentPdf\Exceptions\DomainLogicException;
 
 abstract class AbstractEloquentPdf
 {
@@ -16,7 +16,7 @@ abstract class AbstractEloquentPdf
 
     protected $options = [
         'footer-font-size' => 8,
-        'encoding'         => 'UTF-8'
+        'encoding'         => 'UTF-8',
     ];
 
     protected $view = '';
@@ -39,14 +39,14 @@ abstract class AbstractEloquentPdf
      *
      * @return array
      */
-    abstract public function getData() : array;
+    abstract public function getData(): array;
 
     /**
      * The view file for the pdf.
      *
      * @return string
      */
-    abstract public function getView() : string;
+    abstract public function getView(): string;
 
     /**
      * Handle the process of generating pdf.
@@ -85,91 +85,91 @@ abstract class AbstractEloquentPdf
         return $this;
     }
 
-    public function orientation(string $orientation) : self
+    public function orientation(string $orientation): self
     {
         $this->orientation = $orientation;
 
         return $this;
     }
 
-    public function options(array $options) : self
+    public function options(array $options): self
     {
         $this->options = $options;
 
         return $this;
     }
 
-    public function view(string $view) : self
+    public function view(string $view): self
     {
         $this->view = $view;
 
         return $this;
     }
 
-    public function getOrientation() : string
+    public function getOrientation(): string
     {
         return $this->orientation;
     }
 
-    public function getOptions() : array
+    public function getOptions(): array
     {
         return $this->options;
     }
 
-    public function stream() : self
+    public function stream(): self
     {
         $this->isStreaming = true;
 
         return $this;
     }
 
-    public function download() : self
+    public function download(): self
     {
         $this->isDownloading = true;
 
         return $this;
     }
 
-    public function filename(string $filename) : self
+    public function filename(string $filename): self
     {
         $this->filename = $filename;
 
         return $this;
     }
 
-    public function extension(string $extension) : self
+    public function extension(string $extension): self
     {
         $this->extension = $extension;
 
         return $this;
     }
 
-    public function getModel() : ?Model
+    public function getModel(): ?Model
     {
         return $this->model;
     }
 
-    public function getFilename() : string
+    public function getFilename(): string
     {
         return $this->filename;
     }
 
-    public function getExtension() : string
+    public function getExtension(): string
     {
         return $this->extension;
     }
 
-    public function getFilenameWithExtension() : string
+    public function getFilenameWithExtension(): string
     {
         return "{$this->getFilename()}.{$this->getExtension()}";
     }
 
-    public function isStreaming() : bool
+    public function isStreaming(): bool
     {
         return $this->isStreaming;
     }
 
-    public function isDownloading() : bool
+    public function isDownloading(): bool
     {
         return $this->isDownloading;
     }
