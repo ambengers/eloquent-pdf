@@ -17,8 +17,9 @@ addons:
       - wkhtmltopdf
 
 install:
-    - wget http://wkhtmltopdf.googlecode.com/files/wkhtmltopdf-0.9.9-static-amd64.tar.bz2
-    - tar xvjf wkhtmltopdf-0.9.9-static-amd64.tar.bz2
+    - sudo apt-get update
+    - wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.bionic_amd64.deb
+    - sudo dpkg -i "wkhtmltox_0.12.6-1.bionic_amd64.deb"
     - sudo mv wkhtmltopdf-amd64 /usr/local/bin/wkhtmltopdf
     - sudo chmod +x /usr/local/bin/wkhtmltopdf
 
