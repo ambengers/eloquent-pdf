@@ -7,7 +7,7 @@ use Spatie\MediaLibrary\MediaLibraryServiceProvider;
 use Ambengers\EloquentPdf\EloquentPdfServiceProvider;
 use Barryvdh\Snappy\ServiceProvider as PdfServiceProvider;
 
-class BaseTestCase extends TestCase
+abstract class BaseTestCase extends TestCase
 {
     protected function getPackageProviders($app)
     {
