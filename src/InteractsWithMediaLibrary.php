@@ -2,10 +2,10 @@
 
 namespace Ambengers\EloquentPdf;
 
-use Illuminate\Support\Facades\Storage;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Ambengers\EloquentPdf\Exceptions\DomainLogicException;
 use Ambengers\EloquentPdf\Exceptions\TemporaryFileMissedException;
+use Illuminate\Support\Facades\Storage;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
 
 trait InteractsWithMediaLibrary
 {
@@ -53,7 +53,7 @@ trait InteractsWithMediaLibrary
             // directory when it gets picked up by medialibrary. So here let's try for it
             // and throw an exception so the developer will be able to act accordingly.
             throw TemporaryFileMissedException::withMessage(
-                'File was not saved in temporary location: '. $storage->path($temporaryPath)
+                'File was not saved in temporary location: '.$storage->path($temporaryPath)
             );
         }
 
