@@ -16,7 +16,7 @@ abstract class AbstractEloquentPdf
 
     protected $options = [
         'footer-font-size' => 8,
-        'encoding'         => 'UTF-8',
+        'encoding' => 'UTF-8',
     ];
 
     protected $view = '';
@@ -57,7 +57,7 @@ abstract class AbstractEloquentPdf
     {
         $this->ensurePdfInstance();
 
-        $this->pdf->setOptions($this->getOptions());
+        $this->pdf->setOrientation($this->getOrientation())->setOptions($this->getOptions());
 
         $this->pdf->loadView($this->getView(), $this->getData());
 
