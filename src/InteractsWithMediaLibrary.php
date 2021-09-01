@@ -11,6 +11,8 @@ trait InteractsWithMediaLibrary
 {
     protected $mediaCollection;
 
+    protected $customProperties = [];
+
     /**
      * Set the mediaCollection property.
      *
@@ -20,6 +22,19 @@ trait InteractsWithMediaLibrary
     public function toMediaCollection(string $mediaCollection)
     {
         $this->mediaCollection = $mediaCollection;
+
+        return $this;
+    }
+
+    /**
+     * Set the custom properties in medialibrary.
+     *
+     * @param  array  $properties
+     * @return $this
+     */
+    public function withCustomProperties(array $properties)
+    {
+        $this->customProperties = $properties;
 
         return $this;
     }
@@ -59,6 +74,7 @@ trait InteractsWithMediaLibrary
 
         $media = $this->model->addMedia($storage->path($temporaryPath))
             ->usingFileName($this->getFilenameWithExtension())
+            ->withCustomProperties($this->customProperties)
             ->toMediaCollection($this->mediaCollection);
 
         $storage->deleteDirectory($this->getTemporaryFolder());
