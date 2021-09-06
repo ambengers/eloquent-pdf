@@ -2,16 +2,17 @@
 
 namespace Ambengers\EloquentPdf;
 
-use Ambengers\EloquentPdf\Exceptions\DomainLogicException;
-use Ambengers\EloquentPdf\Exceptions\TemporaryFileMissedException;
 use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\FileAdder\FileAdder;
+use Ambengers\EloquentPdf\Exceptions\DomainLogicException;
+use Ambengers\EloquentPdf\Exceptions\TemporaryFileMissedException;
 
 trait InteractsWithMediaLibrary
 {
-    protected $mediaCollection;
+    protected $fileAdder;
 
-    protected $customProperties = [];
+    protected $mediaCollection;
 
     /**
      * Set the mediaCollection property.
@@ -22,19 +23,6 @@ trait InteractsWithMediaLibrary
     public function toMediaCollection(string $mediaCollection)
     {
         $this->mediaCollection = $mediaCollection;
-
-        return $this;
-    }
-
-    /**
-     * Set the custom properties in medialibrary.
-     *
-     * @param  array  $properties
-     * @return $this
-     */
-    public function withCustomProperties(array $properties)
-    {
-        $this->customProperties = $properties;
 
         return $this;
     }
@@ -72,9 +60,9 @@ trait InteractsWithMediaLibrary
             );
         }
 
-        $media = $this->model->addMedia($storage->path($temporaryPath))
+        $media = $this->fileAdder->setSubject($this->model)
+            ->setFile($storage->path($temporaryPath))
             ->usingFileName($this->getFilenameWithExtension())
-            ->withCustomProperties($this->customProperties)
             ->toMediaCollection($this->mediaCollection);
 
         $storage->deleteDirectory($this->getTemporaryFolder());
@@ -95,5 +83,12 @@ trait InteractsWithMediaLibrary
     protected function getTemporaryDisk()
     {
         return config('eloquent_pdf.media.temporary_disk', 'public');
+    }
+
+    protected function ensureFileAdderInstance()
+    {
+        if (! $this->fileAdder) {
+            $this->fileAdder = app(FileAdder::class);
+        }
     }
 }

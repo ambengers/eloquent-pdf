@@ -95,6 +95,31 @@ class EloquentPdfTest extends BaseTestCase
     }
 
     /** @test */
+    public function it_can_include_additional_attributes_when_transferring_to_medialibrary()
+    {
+        $this->post->save();
+
+        $pdf = app(PostPdf::class)
+            ->model($this->post)
+            ->withAttributes(['custom_attribute' => $attributeValue = 'Custom Attribute Value'])
+            ->toMediaCollection($collectionName = 'attachments');
+
+        $pdf->handle();
+
+        $this->assertDatabaseHas('media', [
+            'model_type' => $this->post->getMorphClass(),
+            'model_id' => $this->post->getKey(),
+            'collection_name' => $collectionName,
+            'name' => $pdf->getFilename(),
+            'custom_attribute' => $attributeValue,
+            'file_name' => $pdf->getFilenameWithExtension(),
+            'disk' => config('filesystems.default'),
+            'mime_type' => 'application/pdf',
+        ]);
+    }
+
+
+    /** @test */
     public function it_can_include_custom_properties_when_transferring_to_medialibrary()
     {
         $this->post->save();

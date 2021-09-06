@@ -2,26 +2,26 @@
 
 namespace Ambengers\EloquentPdf;
 
-use Ambengers\EloquentPdf\Exceptions\DomainLogicException;
 use Barryvdh\Snappy\PdfWrapper;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Traits\ForwardsCalls;
+use Ambengers\EloquentPdf\Exceptions\DomainLogicException;
 
 abstract class AbstractEloquentPdf
 {
+    use ForwardsCalls;
+
     protected $pdf;
 
     protected $model;
 
     protected $orientation = 'portrait';
 
-    protected $options = [
-        'footer-font-size' => 8,
-        'encoding' => 'UTF-8',
-    ];
+    protected $options = ['encoding' => 'UTF-8'];
 
     protected $view = '';
 
-    protected $filename = 'pdf_report';
+    protected $filename = 'pdf_file';
 
     protected $extension = 'pdf';
 
@@ -29,9 +29,13 @@ abstract class AbstractEloquentPdf
 
     protected $isDownloading = false;
 
-    public function __construct(PdfWrapper $pdf = null)
+    public function __construct()
     {
-        $this->pdf = $pdf;
+        $this->ensurePdfWrapperInstance();
+
+        if ($this->isInteractingWithMediaLibrary()) {
+            $this->ensureFileAdderInstance();
+        }
     }
 
     /**
@@ -42,20 +46,20 @@ abstract class AbstractEloquentPdf
     abstract public function getData(): array;
 
     /**
-     * The view file for the pdf.
+     * The view template file.
      *
      * @return string
      */
     abstract public function getView(): string;
 
     /**
-     * Handle the process of generating pdf.
+     * Handle the process of generating the document.
      *
      * @return mixed
      */
     public function handle()
     {
-        $this->ensurePdfInstance();
+        $this->ensurePdfWrapperInstance();
 
         $this->pdf->setOrientation($this->getOrientation())->setOptions($this->getOptions());
 
@@ -69,7 +73,7 @@ abstract class AbstractEloquentPdf
             return $this->pdf->download($this->getFilenameWithExtension());
         }
 
-        if (property_exists($this, 'mediaCollection') && isset($this->mediaCollection)) {
+        if ($this->isInteractingWithMediaLibrary()) {
             return $this->saveToMediaCollection();
         }
 
@@ -78,6 +82,12 @@ abstract class AbstractEloquentPdf
         );
     }
 
+    /**
+     * Set the eloquent model.
+     *
+     * @param  Model  $model
+     * @return self
+     */
     public function model(Model $model)
     {
         $this->model = $model;
@@ -85,6 +95,12 @@ abstract class AbstractEloquentPdf
         return $this;
     }
 
+    /**
+     * Set the orientation.
+     *
+     * @param  string $orientation
+     * @return self
+     */
     public function orientation(string $orientation): self
     {
         $this->orientation = $orientation;
@@ -92,6 +108,12 @@ abstract class AbstractEloquentPdf
         return $this;
     }
 
+    /**
+     * Set options.
+     *
+     * @param  array  $options
+     * @return self
+     */
     public function options(array $options): self
     {
         $this->options = $options;
@@ -99,6 +121,12 @@ abstract class AbstractEloquentPdf
         return $this;
     }
 
+    /**
+     * Set the view template.
+     *
+     * @param  string $view
+     * @return self
+     */
     public function view(string $view): self
     {
         $this->view = $view;
@@ -106,30 +134,12 @@ abstract class AbstractEloquentPdf
         return $this;
     }
 
-    public function getOrientation(): string
-    {
-        return $this->orientation;
-    }
-
-    public function getOptions(): array
-    {
-        return $this->options;
-    }
-
-    public function stream(): self
-    {
-        $this->isStreaming = true;
-
-        return $this;
-    }
-
-    public function download(): self
-    {
-        $this->isDownloading = true;
-
-        return $this;
-    }
-
+    /**
+     * Set the filename.
+     *
+     * @param  string $filename
+     * @return self
+     */
     public function filename(string $filename): self
     {
         $this->filename = $filename;
@@ -137,6 +147,12 @@ abstract class AbstractEloquentPdf
         return $this;
     }
 
+    /**
+     * Set the file extension.
+     *
+     * @param  string $extension
+     * @return self
+     */
     public function extension(string $extension): self
     {
         $this->extension = $extension;
@@ -144,37 +160,142 @@ abstract class AbstractEloquentPdf
         return $this;
     }
 
+    /**
+     * Get the PDF orientation setting.
+     *
+     * @return string
+     */
+    public function getOrientation(): string
+    {
+        return $this->orientation;
+    }
+
+    /**
+     * Get the PDF options.
+     *
+     * @return array
+     */
+    public function getOptions(): array
+    {
+        return $this->options;
+    }
+
+    /**
+     * Set the response as stream.
+     *
+     * @return self
+     */
+    public function stream(): self
+    {
+        $this->isStreaming = true;
+
+        return $this;
+    }
+
+    /**
+     * Set the response as download.
+     *
+     * @return self
+     */
+    public function download(): self
+    {
+        $this->isDownloading = true;
+
+        return $this;
+    }
+
+    /**
+     * Get the eloquent model.
+     *
+     * @return Illuminate\Database\Eloquent\Model
+     */
     public function getModel(): ?Model
     {
         return $this->model;
     }
 
+    /**
+     * Get the document filename.
+     *
+     * @return string
+     */
     public function getFilename(): string
     {
         return $this->filename;
     }
 
+    /**
+     * Get the document extension.
+     *
+     * @return string
+     */
     public function getExtension(): string
     {
         return $this->extension;
     }
 
+    /**
+     * Get the document filename with extension.
+     *
+     * @return string
+     */
     public function getFilenameWithExtension(): string
     {
         return "{$this->getFilename()}.{$this->getExtension()}";
     }
 
+    /**
+     * Determine if response is set to stream.
+     *
+     * @return boolean
+     */
     public function isStreaming(): bool
     {
         return $this->isStreaming;
     }
 
+    /**
+     * Determine if response is set to download.
+     *
+     * @return boolean
+     */
     public function isDownloading(): bool
     {
         return $this->isDownloading;
     }
 
-    protected function ensurePdfInstance()
+    /**
+     * Determine if class is interacting with media library.
+     *
+     * @return boolean
+     */
+    public function isInteractingWithMediaLibrary()
+    {
+        return in_array(InteractsWithMediaLibrary::class, class_uses($this));
+    }
+
+    /**
+     * Dynamically handle method calls.
+     *
+     * @param  string $method
+     * @param  array $parameter
+     * @return self
+     */
+    public function __call($method, $parameter)
+    {
+        if ($this->isInteractingWithMediaLibrary()) {
+            $this->forwardCallTo($this->fileAdder, $method, $parameter);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Ensure PDF wrapper instance.
+     *
+     * @return self
+     */
+    protected function ensurePdfWrapperInstance()
     {
         if (! $this->pdf) {
             $this->pdf = app(PdfWrapper::class);
