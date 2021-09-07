@@ -72,7 +72,7 @@ return app(PostPdf::class)
     ->handle();
 ```
 
-### Eloquent PDF to Medialibrary
+### Eloquent PDF with Medialibrary
 
 This package also offers an elegant way to associate the PDF file to the eloquent model using Medialibrary package.
 To do that, you will need to use a trait to your Eloquent PDF class,
@@ -98,6 +98,19 @@ return app(PostPdf::class)
     ->toMediaCollection('reports')
     ->handle();
 ```
+
+For additional convenience you can also chain other medialibrary methods.
+
+``` php
+return app(PostPdf::class)
+    ->model($post)
+    ->toMediaCollection('reports')
+    ->withCustomProperties(['foo' => 'bar'])
+    ->withAttributes(['creator_id' => 1])
+    ->handle();
+```
+
+Behind the scenes, Eloquent PDF will forward these method calls to the medialibrary `FileAdder::class` so you can further take advantage of its features.
 
 ### Customizations
 
@@ -135,7 +148,7 @@ class PostPdf extends AbstractEloquentPdf
 }
 ```
 
-Alternatively, if you want to only customize during runtime, you can chain some setter methods when you call your Eloquent PDF class
+Alternatively, if you want to only customize during runtime, you can chain some setter methods when you call your Eloquent PDF class.
 
 ``` php
 return app(PostPdf::class)
