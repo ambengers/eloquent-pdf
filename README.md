@@ -74,8 +74,8 @@ return app(PostPdf::class)
 
 ### Eloquent PDF with Medialibrary
 
-This package also offers an elegant way to associate the PDF file to the eloquent model using Medialibrary package.
-To do that, you will need to use a trait to your Eloquent PDF class,
+This package also offers an elegant way to associate PDF file to the Eloquent Model using Medialibrary package.
+To do that, you will need to use a trait on your Eloquent PDF class.
 
 ``` php
 use Ambengers\EloquentPdf\InteractsWithMediaLibrary;
@@ -86,7 +86,7 @@ class PostPdf extends AbstractEloquentPdf
 }
 ```
 
-Then on your controller, just provide the collection name in which the PDF file will be associated with.
+Then on your controller, much like how you'd do on medialibrary, just provide the collection name in which the PDF file will be associated with.
 
 ``` php
 return app(PostPdf::class)
