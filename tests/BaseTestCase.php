@@ -21,12 +21,14 @@ abstract class BaseTestCase extends TestCase
 
     protected function getEnvironmentSetUp($app)
     {
+        $app->useStoragePath(__DIR__.'/storage');
+
         $app['config']->set('database.default', 'sqlite');
 
         $app['config']->set('database.connections.sqlite', [
-            'driver'   => 'sqlite',
+            'driver' => 'sqlite',
             'database' => ':memory:',
-            'prefix'   => '',
+            'prefix' => '',
         ]);
 
         $app['config']->set('filesystems.default', 'public');
@@ -34,5 +36,15 @@ abstract class BaseTestCase extends TestCase
 
         $app['config']->set('medialibrary.max_file_size', 1024 * 1024 * 1000);
         $app['config']->set('medialibrary.media_model', \Spatie\MediaLibrary\Models\Media::class);
+    }
+
+    protected function setUp() : void
+    {
+        parent::setUp();
+
+        $this->loadMigrationsFrom([
+            '--database' => 'sqlite',
+            '--path' => realpath(__DIR__.'/Migrations'),
+        ]);
     }
 }

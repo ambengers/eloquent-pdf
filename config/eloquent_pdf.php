@@ -11,13 +11,9 @@ return [
      */
     'media' => [
         /**
-         * The disk to use to store PDF files temporarily before medialibrary.
+         * The directory to temporarily store files before medialibrary transfer.
+         * If set to null, storage_path('temp/pdf') will be used.
          */
-        'temporary_disk' => 'public',
-
-        /**
-         * The name of the folder within the temporary disk.
-         */
-        'temporary_folder' => 'temp',
+        'temporary_directory' => null,
     ],
 ];

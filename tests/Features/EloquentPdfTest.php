@@ -1,13 +1,14 @@
 <?php
 
-namespace Ambengers\EloquentPdf\Tests;
+namespace Ambengers\EloquentPdf\Tests\Features;
 
-use Barryvdh\Snappy\Facades\SnappyPdf;
-use Illuminate\Support\Facades\Storage;
-use Ambengers\EloquentPdf\Tests\Models\Post;
 use Ambengers\EloquentPdf\AbstractEloquentPdf;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Ambengers\EloquentPdf\InteractsWithMediaLibrary;
+use Ambengers\EloquentPdf\Tests\BaseTestCase;
+use Ambengers\EloquentPdf\Tests\Models\Post;
+use Barryvdh\Snappy\Facades\SnappyPdf;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class EloquentPdfTest extends BaseTestCase
 {
@@ -17,23 +18,10 @@ class EloquentPdfTest extends BaseTestCase
     {
         parent::setUp();
 
-        $this->loadMigrationsFrom([
-            '--database' => 'sqlite',
-            '--path' => realpath(__DIR__.'/Migrations'),
-        ]);
-
         $this->post = (new Post)->fill([
             'title' => 'Test title',
             'body' => 'Test body'
         ]);
-
-        $this->beforeApplicationDestroyed(function () {
-            $storage = Storage::disk(config('filesystems.default'));
-
-            foreach ($storage->allDirectories() as $directory) {
-                $storage->deleteDirectory($directory);
-            }
-        });
     }
 
     /** @test */
@@ -43,11 +31,12 @@ class EloquentPdfTest extends BaseTestCase
 
         $pdf = app(PostPdf::class)
             ->model($this->post)
+            ->filename(time())
             ->stream();
 
         $response = $pdf->handle();
 
-        $this->assertTrue($response instanceof \Symfony\Component\HttpFoundation\StreamedResponse);
+        $this->assertTrue($response instanceof StreamedResponse);
 
         $this->assertEquals(
             $response->headers->all()['content-disposition'][0],
@@ -62,6 +51,7 @@ class EloquentPdfTest extends BaseTestCase
 
         $pdf = app(PostPdf::class)
             ->model($this->post)
+            ->filename(time())
             ->download();
 
         $response = $pdf->handle();
@@ -79,6 +69,7 @@ class EloquentPdfTest extends BaseTestCase
 
         $pdf = app(PostPdf::class)
             ->model($this->post)
+            ->filename(time())
             ->toMediaCollection($collectionName = 'attachments');
 
         $pdf->handle();
@@ -101,6 +92,7 @@ class EloquentPdfTest extends BaseTestCase
 
         $pdf = app(PostPdf::class)
             ->model($this->post)
+            ->filename(time())
             ->withAttributes(['custom_attribute' => $attributeValue = 'Custom Attribute Value'])
             ->toMediaCollection($collectionName = 'attachments');
 
@@ -126,6 +118,7 @@ class EloquentPdfTest extends BaseTestCase
 
         $pdf = app(PostPdf::class)
             ->model($this->post)
+            ->filename(time())
             ->withCustomProperties($props = ['foo' => 1, 'bar' => 2])
             ->toMediaCollection($collectionName = 'attachments');
 
