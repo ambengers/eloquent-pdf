@@ -78,15 +78,11 @@ This package also offers an elegant way to associate the PDF file to the eloquen
 To do that, you will need to use a trait to your Eloquent PDF class,
 
 ``` php
-namespace App\Pdf;
-
 use Ambengers\EloquentPdf\InteractsWithMediaLibrary;
 
 class PostPdf extends AbstractEloquentPdf
 {
     use InteractsWithMediaLibrary;
-
-    // ...
 }
 ```
 
@@ -106,7 +102,7 @@ return app(PostPdf::class)
     ->model($post)
     ->toMediaCollection('reports')
     ->withCustomProperties(['foo' => 'bar'])
-    ->withAttributes(['creator_id' => 1])
+    ->withAttributes(['creator_id' => auth()->id()])
     ->handle();
 ```
 
