@@ -2,10 +2,10 @@
 
 namespace Ambengers\EloquentPdf;
 
+use Ambengers\EloquentPdf\Exceptions\DomainLogicException;
 use Barryvdh\Snappy\PdfWrapper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Traits\ForwardsCalls;
-use Ambengers\EloquentPdf\Exceptions\DomainLogicException;
 
 abstract class AbstractEloquentPdf
 {
@@ -247,7 +247,7 @@ abstract class AbstractEloquentPdf
     /**
      * Determine if response is set to stream.
      *
-     * @return boolean
+     * @return bool
      */
     public function isStreaming(): bool
     {
@@ -257,7 +257,7 @@ abstract class AbstractEloquentPdf
     /**
      * Determine if response is set to download.
      *
-     * @return boolean
+     * @return bool
      */
     public function isDownloading(): bool
     {
@@ -267,7 +267,7 @@ abstract class AbstractEloquentPdf
     /**
      * Determine if class is interacting with media library.
      *
-     * @return boolean
+     * @return bool
      */
     public function isInteractingWithMediaLibrary()
     {
