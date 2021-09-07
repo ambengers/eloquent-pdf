@@ -1,5 +1,5 @@
 # Laravel Eloquent PDF
-This package provides an elegant way to generate PDF with eloquent models.
+This package provides an elegant way to generate PDF with Eloquent Models.
 Uses [Laravel Snappy](https://github.com/barryvdh/laravel-snappy) to generate PDF and [Laravel Medialibrary](https://github.com/spatie/laravel-medialibrary) to associate PDF as model media.
 
 [![Build Status](https://travis-ci.org/ambengers/eloquent-pdf.svg?branch=master)](https://travis-ci.org/ambengers/eloquent-pdf)
