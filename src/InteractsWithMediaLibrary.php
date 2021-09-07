@@ -43,46 +43,51 @@ trait InteractsWithMediaLibrary
             );
         }
 
-        $storage = Storage::disk($this->getTemporaryDisk());
+        // We want to save the document within the temporary directory first and let the
+        // medialibrary package pick it up and transfer to the desired storage..
+        $temporaryPath = $this->saveTemporaryFile();
 
-        $temporaryPath = $this->getTemporaryPath($this->getFilenameWithExtension());
-
-        // We want to save the pdf in public disk first and let medialibrary
-        // package pick it up and transfer to the desired storage..
-        $saved = $this->pdf->save($storage->path($temporaryPath));
-
-        if (! $saved || ! $storage->exists($temporaryPath)) {
+        if (! file_exists($temporaryPath)) {
             // In some cases, there will be a race condition where PDF is not saved in temp
             // directory when it gets picked up by medialibrary. So here let's try for it
             // and throw an exception so the developer will be able to act accordingly.
             throw TemporaryFileMissedException::withMessage(
-                'File was not saved in temporary location: '.$storage->path($temporaryPath)
+                "File was not saved in temporary location: {$temporaryPath}"
             );
         }
 
-        $media = $this->fileAdder->setSubject($this->model)
-            ->setFile($storage->path($temporaryPath))
+        return $this->fileAdder->setSubject($this->model)
+            ->setFile($temporaryPath)
             ->usingFileName($this->getFilenameWithExtension())
             ->toMediaCollection($this->mediaCollection);
+    }
 
-        $storage->deleteDirectory($this->getTemporaryFolder());
+    protected function saveTemporaryFile()
+    {
+        $this->ensureTemporaryDirectoryExists();
 
-        return $media;
+        $path = $this->getTemporaryPath($this->getFilenameWithExtension());
+
+        $this->pdf->save($path);
+
+        return $path;
+    }
+
+    protected function ensureTemporaryDirectoryExists()
+    {
+        if (! file_exists($this->getTemporaryDirectory()) || ! is_dir($this->getTemporaryDirectory())) {
+            mkdir($this->getTemporaryDirectory(), 0755, true);
+        }
     }
 
     protected function getTemporaryPath($filename)
     {
-        return $this->getTemporaryFolder().'/'.$filename;
+        return $this->getTemporaryDirectory().'/'.$filename;
     }
 
-    protected function getTemporaryFolder()
+    protected function getTemporaryDirectory()
     {
-        return config('eloquent_pdf.media.temporary_path', 'temp');
-    }
-
-    protected function getTemporaryDisk()
-    {
-        return config('eloquent_pdf.media.temporary_disk', 'public');
+        return config('eloquent_pdf.media.temporary_directory') ?? storage_path('temp/pdf');
     }
 
     protected function ensureFileAdderInstance()
