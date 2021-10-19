@@ -5,8 +5,8 @@ namespace Ambengers\EloquentPdf;
 use Ambengers\EloquentPdf\Exceptions\DomainLogicException;
 use Ambengers\EloquentPdf\Exceptions\TemporaryFileMissedException;
 use Illuminate\Support\Facades\Storage;
-use Spatie\MediaLibrary\FileAdder\FileAdder;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\MediaCollections\FileAdder;
 
 trait InteractsWithMediaLibrary
 {

@@ -93,7 +93,7 @@ class EloquentPdfTest extends BaseTestCase
         $pdf = app(PostPdf::class)
             ->model($this->post)
             ->filename(time())
-            ->withAttributes(['custom_attribute' => $attributeValue = 'Custom Attribute Value'])
+            ->withAttributes(['custom_properties' => $custom = ['attribute' => 'value']])
             ->toMediaCollection($collectionName = 'attachments');
 
         $pdf->handle();
@@ -103,7 +103,7 @@ class EloquentPdfTest extends BaseTestCase
             'model_id' => $this->post->getKey(),
             'collection_name' => $collectionName,
             'name' => $pdf->getFilename(),
-            'custom_attribute' => $attributeValue,
+            'custom_properties' => json_encode($custom),
             'file_name' => $pdf->getFilenameWithExtension(),
             'disk' => config('filesystems.default'),
             'mime_type' => 'application/pdf',
