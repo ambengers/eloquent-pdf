@@ -5,7 +5,7 @@ Uses [Laravel Snappy](https://github.com/barryvdh/laravel-snappy) to generate PD
 [![Build Status](https://travis-ci.org/ambengers/eloquent-pdf.svg?branch=master)](https://travis-ci.org/ambengers/eloquent-pdf)
 [![StyleCI](https://github.styleci.io/repos/316454658/shield?branch=master)](https://github.styleci.io/repos/316454658?branch=master)
 
-# Medialibrary Compatibility
+## Medialibrary Compatibility
 
 | Version  | Medialibrary |
 |:---------|:-------------|
