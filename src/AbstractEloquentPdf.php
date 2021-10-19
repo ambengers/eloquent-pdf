@@ -98,7 +98,7 @@ abstract class AbstractEloquentPdf
     /**
      * Set the orientation.
      *
-     * @param  string $orientation
+     * @param  string  $orientation
      * @return self
      */
     public function orientation(string $orientation): self
@@ -124,7 +124,7 @@ abstract class AbstractEloquentPdf
     /**
      * Set the view template.
      *
-     * @param  string $view
+     * @param  string  $view
      * @return self
      */
     public function view(string $view): self
@@ -137,7 +137,7 @@ abstract class AbstractEloquentPdf
     /**
      * Set the filename.
      *
-     * @param  string $filename
+     * @param  string  $filename
      * @return self
      */
     public function filename(string $filename): self
@@ -150,7 +150,7 @@ abstract class AbstractEloquentPdf
     /**
      * Set the file extension.
      *
-     * @param  string $extension
+     * @param  string  $extension
      * @return self
      */
     public function extension(string $extension): self
@@ -277,8 +277,8 @@ abstract class AbstractEloquentPdf
     /**
      * Dynamically handle method calls.
      *
-     * @param  string $method
-     * @param  array $parameter
+     * @param  string  $method
+     * @param  array  $parameter
      * @return self
      */
     public function __call($method, $parameter)

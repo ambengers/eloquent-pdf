@@ -17,7 +17,7 @@ trait InteractsWithMediaLibrary
     /**
      * Set the mediaCollection property.
      *
-     * @param  string $mediaCollection
+     * @param  string  $mediaCollection
      * @return $this
      */
     public function toMediaCollection(string $mediaCollection)
