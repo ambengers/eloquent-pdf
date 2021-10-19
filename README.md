@@ -5,6 +5,14 @@ Uses [Laravel Snappy](https://github.com/barryvdh/laravel-snappy) to generate PD
 [![Build Status](https://travis-ci.org/ambengers/eloquent-pdf.svg?branch=master)](https://travis-ci.org/ambengers/eloquent-pdf)
 [![StyleCI](https://github.styleci.io/repos/316454658/shield?branch=master)](https://github.styleci.io/repos/316454658?branch=master)
 
+# Version and Medialibrary Support
+
+| Version  | Medialibrary |
+|:---------|:-------------|
+| 1        |^ 7.5         |
+| 2        |^ 8.0         |
+| 3        |^ 9.0         |
+
 ## Installation
 
 Via Composer
