@@ -9,9 +9,9 @@ Uses [Laravel Snappy](https://github.com/barryvdh/laravel-snappy) to generate PD
 
 | Version  | Medialibrary |
 |:---------|:-------------|
-| 1        |^ 7.5         |
-| 2        |^ 8.0         |
-| 3        |^ 9.0         |
+| v1.*     |^ 7.5         |
+| v2.*     |^ 8.0         |
+| v3.*     |^ 9.0         |
 
 ## Installation
 
