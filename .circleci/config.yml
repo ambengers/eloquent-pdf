@@ -29,7 +29,7 @@ jobs:
       # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
       - run: sudo apt update
       - run: sudo apt install -y libmagickwand-dev --no-install-recommends
-      - run: sudo apt install xfonts-75dpi xfonts-base gvfs colord glew-utils libvisual-0.4-plugins gstreamer1.0-tools opus-tools qt5-image-formats-plugins qtwayland5 qt5-qmltooling-plugins librsvg2-bin lm-sensors
+      - run: sudo apt install xfonts-75dpi xfonts-base libjpeg-turbo8
       - run: sudo rm -rf /var/lib/apt/lists/*
       - run: sudo wget https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.bionic_amd64.deb
       - run: sudo dpkg -i wkhtmltox_0.12.5-1.bionic_amd64.deb
