@@ -7,6 +7,7 @@ use Ambengers\EloquentPdf\InteractsWithMediaLibrary;
 use Ambengers\EloquentPdf\Tests\BaseTestCase;
 use Ambengers\EloquentPdf\Tests\Models\Post;
 use Barryvdh\Snappy\Facades\SnappyPdf;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -22,6 +23,16 @@ class EloquentPdfTest extends BaseTestCase
             'title' => 'Test title',
             'body' => 'Test body'
         ]);
+    }
+
+    public function tearDown() : void
+    {
+        $filesystem = new Filesystem;
+
+        $filesystem->cleanDirectory(storage_path('app'));
+        $filesystem->cleanDirectory(storage_path('temp'));
+
+        parent::tearDown();
     }
 
     /** @test */
