@@ -24,9 +24,9 @@ jobs:
       # - run: sudo apt-get install -y libjpeg-turbo8
       - run: sudo apt-get install xfonts-75dpi xfonts-base
       - run: sudo rm -rf /var/lib/apt/lists/*
-      - run: sudo wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.bionic_amd64.deb
-      - run: sudo apt install ./wkhtmltox_0.12.6-1.bionic_amd64.deb
-      - run: sudo cp /usr/local/bin/wkhtmlto* /usr/bin/
+      # - run: sudo wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.bionic_amd64.deb
+      # - run: sudo apt install ./wkhtmltox_0.12.6-1.bionic_amd64.deb
+      # - run: sudo cp /usr/local/bin/wkhtmlto* /usr/bin/
       - run: sudo pecl install imagick
       - run: sudo docker-php-ext-install zip
       - run: sudo docker-php-ext-install exif
