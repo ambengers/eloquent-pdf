@@ -10,7 +10,7 @@ jobs:
     # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
     docker:
       # Specify the version you desire here
-      - image: circleci/php:7.4-node-browsers
+      - image: php/php:7.4-fpm
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -28,7 +28,12 @@ jobs:
 
       # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
       - run: sudo apt update
-      - run: sudo apt install -y libmagickwand-dev --no-install-recommends
+      - run: sudo apt install -y libmagickwand-dev \
+                libfreetype6-dev \
+                libjpeg62-turbo-dev \
+                libpng-dev \
+            && docker-php-ext-configure gd --with-freetype --with-jpeg \
+            && docker-php-ext-install -j$(nproc) gd
       - run: sudo rm -rf /var/lib/apt/lists/*
       - run: sudo wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.xenial_amd64.deb
       - run: sudo apt install ./wkhtmltox_0.12.6-1.xenial_amd64.deb
