@@ -30,7 +30,7 @@ jobs:
       - run: sudo apt update
       - run: sudo apt install -y libmagickwand-dev --no-install-recommends
       - run: sudo apt install xfonts-75dpi xfonts-base
-      - run: sudo apt install -y libjpeg-turbo8-dev
+      - run: sudo apt install -y libjpeg-turbo8
       - run: sudo rm -rf /var/lib/apt/lists/*
       - run: sudo wget https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.bionic_amd64.deb
       - run: sudo dpkg -i wkhtmltox_0.12.5-1.bionic_amd64.deb
