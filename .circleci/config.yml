@@ -27,8 +27,8 @@ jobs:
       - checkout
 
       # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
-      - run: sudo apt update
-      - run: sudo apt install -y libmagickwand-dev \
+      - run: sudo apt-get update
+      - run: sudo apt-get install -y libmagickwand-dev \
                 libfreetype6-dev \
                 libjpeg62-turbo-dev \
                 libpng-dev \
