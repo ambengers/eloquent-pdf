@@ -12,15 +12,6 @@ jobs:
       # Specify the version you desire here
       - image: circleci/php:7.4-node-browsers
 
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # Using the RAM variation mitigates I/O contention
-      # for database intensive operations.
-      # - image: circleci/mysql:5.7-ram
-      #
-      # - image: redis:2.8.19
-
     # Add steps to the job
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
@@ -29,11 +20,11 @@ jobs:
       # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
       - run: sudo apt-get update
       - run: sudo apt-get install -y libmagickwand-dev --no-install-recommends
-      # - run: sudo apt-get install -y libjpeg-turbo8
+      - run: sudo apt-get install -y libjpeg-turbo8
       - run: sudo apt-get install xfonts-75dpi xfonts-base
       - run: sudo rm -rf /var/lib/apt/lists/*
-      - run: sudo wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.stretch_arm64.deb
-      - run: sudo dpkg -i wkhtmltox_0.12.6-1.stretch_arm64.deb
+      - run: sudo wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.bionic_amd64.deb
+      - run: sudo dpkg -i wkhtmltox_0.12.6-1.bionic_amd64.deb
       - run: sudo cp /usr/local/bin/wkhtmlto* /usr/bin/
       - run: sudo pecl install imagick
       - run: sudo docker-php-ext-install zip
