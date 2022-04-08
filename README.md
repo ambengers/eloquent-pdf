@@ -12,6 +12,7 @@ Uses [Laravel Snappy](https://github.com/barryvdh/laravel-snappy) to generate PD
 | v1.*     |~ 7.20        |
 | v2.*     |^ 8.0         |
 | v3.*     |^ 9.0         |
+| v4.*     |^ 10.0        |
 
 ## Installation
 
