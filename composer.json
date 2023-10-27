@@ -12,13 +12,13 @@
     "keywords": ["Laravel", "EloquentPdf"],
     "require": {
         "php": "^8.0",
-        "illuminate/support": "~9",
+        "illuminate/support": "^9|^10",
         "barryvdh/laravel-snappy": "^1.0.0",
         "spatie/laravel-medialibrary": "^10.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
-        "orchestra/testbench": "^7.0"
+        "orchestra/testbench": "^7.0|^8.0"
     },
     "autoload": {
         "psr-4": {
