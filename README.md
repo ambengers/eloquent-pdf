@@ -5,14 +5,15 @@ Uses [Laravel Snappy](https://github.com/barryvdh/laravel-snappy) to generate PD
 [![CircleCI](https://circleci.com/gh/ambengers/eloquent-pdf/tree/master.svg?style=svg)](https://circleci.com/gh/ambengers/eloquent-pdf/tree/master)
 [![StyleCI](https://github.styleci.io/repos/316454658/shield?branch=master)](https://github.styleci.io/repos/316454658?branch=master)
 
-## Medialibrary Compatibility
+## Spatie Media Library Version Compatibility
 
-| Version  | Medialibrary |
-|:---------|:-------------|
-| v1.*     |~ 7.20        |
-| v2.*     |^ 8.0         |
-| v3.*     |^ 9.0         |
-| v4.*     |^ 10.0        |
+| Version | Medialibrary |
+|:--------|:-------------|
+| v1.*    |~ 7.20        |
+| v2.*    |^ 8.0         |
+| v3.*    |^ 9.0         |
+| v4.*    |^ 10.0        |
+| v5.*    |^ 10.0        |
 
 ## Installation
 
