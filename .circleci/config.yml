@@ -25,10 +25,12 @@ jobs:
       - run: sudo apt-get install xfonts-75dpi xfonts-base
       - run: sudo apt-get install wkhtmltopdf
       - run: sudo mv  `which wkhtmltopdf` /usr/local/bin/wkhtmltopdf
+      - run: sudo apt install imagemagick imagemagick-doc
+      - run: sudo apt install php-imagick
       - run: sudo docker-php-ext-install zip
       - run: sudo docker-php-ext-install exif
       - run: sudo docker-php-ext-enable exif
-      - run: sudo pecl install imagick
+#      - run: sudo pecl install imagick
       - run: sudo docker-php-ext-enable imagick
 
       # Download and cache dependencies
